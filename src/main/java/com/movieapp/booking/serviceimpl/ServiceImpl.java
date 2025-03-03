@@ -2,7 +2,6 @@ package com.movieapp.booking.serviceimpl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +49,7 @@ public class ServiceImpl implements MovieService {
 			movie.setGenre(updatedMovie.getGenre());
 			movie.setDate(updatedMovie.getDate());
 			movie.setLocation(updatedMovie.getLocation());
-			return repository.save(movie); // ✅ Ensure you return the saved movie
+			return repository.save(movie); 
 		});
 	}
 
@@ -64,17 +63,23 @@ public class ServiceImpl implements MovieService {
 	}
 	
 	@Override
-	public List<MovieModel> getMovieByParams(String movieTitle, String genre, String date, String location) {
-		
-		List<MovieModel> allMovies = repository.findAll(); // Fetch all movies from the data source
+	 public List<MovieModel> getMoviesByGenre(String genre) {
+	        return repository.findByGenre(genre);
+	    }
+	@Override
+	    public List<MovieModel> getMoviesByDate(String date) {
+	        return repository.findByDate(date);
+	    }
+	@Override
+	    public List<MovieModel> getMoviesByTitle(String movieTitle) {
+	        return repository.findByMovieTitleContainingIgnoreCase(movieTitle);
+	    }
+	@Override
+	    public List<MovieModel> getMoviesByLocation(String location) {
+	        return repository.findByLocationContainingIgnoreCase(location);
+	    }
+	
+	
 
-	    // Filter based on the parameters provided
-	    return allMovies.stream()
-	            .filter(movie -> (movieTitle == null || movie.getMovieTitle().equalsIgnoreCase(movieTitle)) && 
-	                             (genre == null || movie.getGenre().equalsIgnoreCase(genre)) &&
-	                             (date == null || movie.getDate().equals(date)) &&
-	                             (location == null || movie.getLocation().equalsIgnoreCase(location)))
-	            .collect(Collectors.toList());
-	}
 
 }

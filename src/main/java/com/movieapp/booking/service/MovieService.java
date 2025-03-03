@@ -13,6 +13,9 @@ public interface MovieService {
     void deleteMovie(String movieId);
     Optional<MovieModel> updateMovie(String movieId, MovieModel updatedMovie);
     MovieModel getMovieById(String movieId);
-    
-    List<MovieModel> getMovieByParams(String movieTitle, String genre, String date, String location);
+    List<MovieModel> getMoviesByGenre(String genre);
+    List<MovieModel> getMoviesByDate(String date);
+    List<MovieModel> getMoviesByTitle(String movieTitle);
+    List<MovieModel> getMoviesByLocation(String location);
+   
 }

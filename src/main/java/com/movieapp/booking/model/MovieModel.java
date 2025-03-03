@@ -1,10 +1,10 @@
 package com.movieapp.booking.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,6 @@ public class MovieModel {
 	private String id;
 
 	@Field("movie_title")
-//	@JsonProperty("movie_title")
 	private String movieTitle;
 
 	@Field("genre")
@@ -31,4 +30,9 @@ public class MovieModel {
 
 	@Field("location")
 	private String location;
+	
+//	@Field("available_seats;")
+//	private int availableSeats;
+	@Field("shows")
+	private List<ShowModel> shows;  // New field for multiple show timings
 }
