@@ -16,14 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieBooking {
-//    @Id
-//    private String id;
-//    @Field("movie_id")
-//    private String movieId;
-//    @Field("tickets")
-//    private int tickets;
-//    @Field("payment_status")
-//    private String paymentStatus;
 
 	@Id
 	private String id;
@@ -36,7 +28,7 @@ public class MovieBooking {
 	@Field("location")
 	private String location;
 	@Field("booked_seats")
-//    private List<String> bookedSeats;
+
     private List<String> bookedSeats = new ArrayList<>(); // Ensure it's initialized
 	@Field("payment_status")
 	private String paymentStatus;

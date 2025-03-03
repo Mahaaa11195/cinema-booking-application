@@ -31,8 +31,6 @@ public class MovieModel {
 	@Field("location")
 	private String location;
 	
-//	@Field("available_seats;")
-//	private int availableSeats;
 	@Field("shows")
 	private List<ShowModel> shows;  // New field for multiple show timings
 }
