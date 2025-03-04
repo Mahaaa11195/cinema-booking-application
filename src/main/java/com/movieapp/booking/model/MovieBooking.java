@@ -25,7 +25,7 @@ public class MovieBooking {
 	private String date;
 	@Field("time")
 	private String time;
-	@Field("location")
+	@Field("location_name")
 	private String location;
 	@Field("booked_seats")
 
@@ -45,5 +45,12 @@ public class MovieBooking {
         } else {
             this.bookedSeats = bookedSeats;
         }
+    }
+    public String getLocation() { // Add this getter
+        return location;
+    }
+
+    public void setLocation(String location) { // Add this setter
+        this.location = location;
     }
 }

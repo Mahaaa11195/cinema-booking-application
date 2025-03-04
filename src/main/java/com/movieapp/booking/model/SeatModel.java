@@ -18,4 +18,3 @@ public class SeatModel {
         this.price = price;
     }
 }
-

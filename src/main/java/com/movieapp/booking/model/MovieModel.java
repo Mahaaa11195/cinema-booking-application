@@ -1,5 +1,6 @@
 package com.movieapp.booking.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -26,11 +27,17 @@ public class MovieModel {
 	private String genre;
 
 	@Field("date")
-	private String date;
+	private LocalDateTime date;
 
-	@Field("location")
-	private String location;
+	@Field("release_date")
+	private String releaseDate;
+
+//	@Field("location")
+//	private String location;
 	
-	@Field("shows")
-	private List<ShowModel> shows;  // New field for multiple show timings
+//	@Field("shows")
+//	private List<ShowModel> shows;  // New field for multiple show timings
+	
+	@Field("locations")
+    private List<LocationModel> locations;
 }

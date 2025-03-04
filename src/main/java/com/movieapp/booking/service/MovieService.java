@@ -16,6 +16,6 @@ public interface MovieService {
     List<MovieModel> getMoviesByGenre(String genre);
     List<MovieModel> getMoviesByDate(String date);
     List<MovieModel> getMoviesByTitle(String movieTitle);
-    List<MovieModel> getMoviesByLocation(String location);
+//    List<MovieModel> getMoviesByLocation(String location);
    
 }
