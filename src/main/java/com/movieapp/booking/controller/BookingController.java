@@ -18,20 +18,19 @@ import com.movieapp.booking.service.BookingService;
 @RequestMapping("/movie")
 public class BookingController {
 
-    @Autowired
-    private BookingService bookingService;
+	@Autowired
+	private BookingService bookingService;
 
-    @PostMapping("/booking")
-    public ResponseEntity<ResponseEntity<Map<String, Object>>> bookMovie(
-            @RequestBody MovieBooking booking) {
+	@PostMapping("/booking")
+	public ResponseEntity<ResponseEntity<Map<String, Object>>> bookMovie(@RequestBody MovieBooking booking) {
 
-        ResponseEntity<Map<String, Object>> response = bookingService.bookMovie(booking);
-        return ResponseEntity.ok(response);
-    }
-    @GetMapping("/booking/history")
-    public List<MovieBooking> getBookingHistory(){
-    	
-    	return bookingService.getBookingHistory();
-    }
+		ResponseEntity<Map<String, Object>> response = bookingService.bookMovie(booking);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/booking/history")
+	public List<MovieBooking> getBookingHistory() {
+
+		return bookingService.getBookingHistory();
+	}
 }
-

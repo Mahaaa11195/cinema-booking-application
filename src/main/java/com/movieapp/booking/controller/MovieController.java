@@ -17,80 +17,55 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.movieapp.booking.model.MovieModel;
 import com.movieapp.booking.service.MovieService;
-@CrossOrigin(origins = "*")
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping
+@RequestMapping("/movie")
 public class MovieController {
 
-    @Autowired
-    private MovieService movieService;
+	@Autowired
+	private MovieService movieService;
 
-    public MovieController(MovieService movieService) {
-		super();
-		this.movieService = movieService;
+	@PostMapping("/save")
+	public ResponseEntity<?> addMovie(@RequestBody MovieModel movie) {
+		return movieService.save(movie);
 	}
 
-	// Save a single movie
-    
-    @PostMapping("/movie")
-    public ResponseEntity<?> addMovie(@RequestBody MovieModel movie) {
-        return movieService.save(movie);
-    }
+	@GetMapping("/get/all")
+	public List<MovieModel> getAllMovies() {
+		return movieService.getAllMovies();
+	}
 
-    // Get all movies
-    
-    @GetMapping("/movies")
-    public List<MovieModel> getAllMovies() {
-        return movieService.getAllMovies();
-    }
-    //delete movie 
-    
-    @DeleteMapping("/movie/id={movieId}")
-    public ResponseEntity<String> deleteMovie(@PathVariable String movieId) {
-        movieService.deleteMovie(movieId);
-        return ResponseEntity.ok("Movie deleted successfully!");
-    }
-    
-    //update movie 
+	@DeleteMapping("/delete/name={movieTitle}")
+	public ResponseEntity<String> deleteMovie(@PathVariable String movieTitle) {
+		movieService.deleteMovie(movieTitle);
+		return ResponseEntity.ok("Movie deleted successfully!");
+	}
 
-    @PutMapping("/movie/id={movieId}")
-    public ResponseEntity<Object> updateMovie(
-            @PathVariable String movieId, 
-            @RequestBody MovieModel updatedMovie
-    ) {
-        Object movie = movieService.updateMovie(movieId, updatedMovie);
-        return ResponseEntity.ok(movie);
-    }
-    
- 
-    
-    @GetMapping("/movie/{movieId}")
-    public MovieModel getMovieById (@PathVariable String movieId ) {
-    	return movieService.getMovieById(movieId);
-    	
-    }
-    @GetMapping("/movie")
-    public List<MovieModel> getMovies(
-            @RequestParam(required = false) String genre,
-            @RequestParam(required = false) String date,
-            @RequestParam(required = false) String movieTitle
-//            ,@RequestParam(required = false) String location
-            ) {
-        
-        if (genre != null) {
-            return movieService.getMoviesByGenre(genre);
-        } else if (date != null) {
-            return movieService.getMoviesByDate(date);
-        } else if (movieTitle != null) {
-            return movieService.getMoviesByTitle(movieTitle);
-        } 
-//        else if (location != null) {
-//            return movieService.getMoviesByLocation(location);
-//        } 
-        else {
-            return List.of();  // Return empty list if no filter is provided
-        }
-    }
+	@PutMapping("/update/id={movieId}")
+	public ResponseEntity<Object> updateMovie(@PathVariable String movieId, @RequestBody MovieModel updatedMovie) {
+		Object movie = movieService.updateMovie(movieId, updatedMovie);
+		return ResponseEntity.ok(movie);
+	}
 
+	@GetMapping("/get/id={movieId}")
+	public MovieModel getMovieById(@PathVariable String movieId) {
+		return movieService.getMovieById(movieId);
+
+	}
+
+	@GetMapping("/get/byFilter")
+	public List<MovieModel> getMovies(@RequestParam(required = false) String genre,
+			@RequestParam(required = false) String date, @RequestParam(required = false) String movieTitle) {
+
+		if (genre != null) {
+			return movieService.getMoviesByGenre(genre);
+		} else if (date != null) {
+			return movieService.getMoviesByDate(date);
+		} else if (movieTitle != null) {
+			return movieService.getMoviesByTitle(movieTitle);
+		} else {
+			return List.of();
+		}
+	}
 }

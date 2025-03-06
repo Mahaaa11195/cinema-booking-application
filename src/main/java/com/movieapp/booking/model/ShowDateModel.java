@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShowDateModel {
 
-    @Field("date")
-    private LocalDateTime date;
+	@Field("date")
+	private LocalDateTime date;
 
-    @Field("shows")
-    private List<ShowModel> shows;
+	@Field("shows")
+	private List<ShowModel> shows;
 }

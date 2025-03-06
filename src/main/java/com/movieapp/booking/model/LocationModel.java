@@ -14,23 +14,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LocationModel {
 
-    @Field("location_name")
-    private String locationName;
-    
-    @Field("dates")
-    private List<ShowDateModel> dates = new ArrayList<>();
-    public List<ShowDateModel> getDates() {
-        return dates;
-    }
+	@Field("location_name")
+	private String locationName;
 
-    public void setDates( List<ShowDateModel> dates) {
-        if (dates == null) {
-            this.dates = new ArrayList<>(); // Avoid null values
-        } else {
-            this.dates = dates;
-        }
-    }
+	@Field("dates")
+	private List<ShowDateModel> dates = new ArrayList<>();
+
+//	public List<ShowDateModel> getDates() {
+//		return dates;
+//	}
+//
+	public void setDates(List<ShowDateModel> dates) {
+		if (dates == null) {
+			this.dates = new ArrayList<>(); // Avoid null values
+		} else {
+			this.dates = dates;
+		}
+	}
 //    @Field("shows")
 //    private List<ShowModel> shows; // Each location has multiple showtimes
 }
-

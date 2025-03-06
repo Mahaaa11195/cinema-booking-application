@@ -29,15 +29,18 @@ public class MovieModel {
 	@Field("date")
 	private LocalDateTime date;
 
+	@Field("image")
+	private String image;
+
 	@Field("release_date")
 	private String releaseDate;
 
 //	@Field("location")
 //	private String location;
-	
+
 //	@Field("shows")
 //	private List<ShowModel> shows;  // New field for multiple show timings
-	
+
 	@Field("locations")
-    private List<LocationModel> locations;
+	private List<LocationModel> locations;
 }
