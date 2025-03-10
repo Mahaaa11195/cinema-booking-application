@@ -90,21 +90,77 @@ public class MovieServiceImpl implements MovieService {
 		repository.deleteByMovieTitle(movieName);
 	}
 
+//	@Override
+//	public Optional<MovieModel> updateMovie(String movieId, MovieModel updatedMovie) {
+//
+//		return repository.findById(movieId).map(movie -> {
+//			movie.setMovieTitle(updatedMovie.getMovieTitle());
+//			movie.setGenre(updatedMovie.getGenre());
+//			movie.setReleaseDate(updatedMovie.getReleaseDate());
+//			movie.setLocations(updatedMovie.getLocations());
+//
+//			LocalDateTime movieAddTime = LocalDateTime.now();
+//			movie.setDate(movieAddTime);
+//
+//			return repository.save(movie);
+//		});
+//	}
 	@Override
 	public Optional<MovieModel> updateMovie(String movieId, MovieModel updatedMovie) {
+	    return repository.findById(movieId).map(existingMovie -> {
+	        existingMovie.setMovieTitle(updatedMovie.getMovieTitle());
+	        existingMovie.setGenre(updatedMovie.getGenre());
 
-		return repository.findById(movieId).map(movie -> {
-			movie.setMovieTitle(updatedMovie.getMovieTitle());
-			movie.setGenre(updatedMovie.getGenre());
-			movie.setReleaseDate(updatedMovie.getReleaseDate());
-			movie.setLocations(updatedMovie.getLocations());
+	        // Preserve existing locations if not explicitly changed
+	        if (updatedMovie.getLocations() != null && !updatedMovie.getLocations().isEmpty()) {
+	            for (LocationModel updatedLocation : updatedMovie.getLocations()) {
+	                Optional<LocationModel> existingLocationOpt = existingMovie.getLocations().stream()
+	                        .filter(loc -> loc.getLocationName().equals(updatedLocation.getLocationName())) // Assuming name is unique
+	                        .findFirst();
 
-			LocalDateTime movieAddTime = LocalDateTime.now();
-			movie.setDate(movieAddTime);
+	                if (existingLocationOpt.isPresent()) {
+	                    LocationModel existingLocation = existingLocationOpt.get();
 
-			return repository.save(movie);
-		});
+	                    for (ShowDateModel updatedShowDate : updatedLocation.getDates()) {
+	                        Optional<ShowDateModel> existingShowDateOpt = existingLocation.getDates().stream()
+	                                .filter(sd -> sd.getDate().equals(updatedShowDate.getDate()))
+	                                .findFirst();
+
+	                        if (existingShowDateOpt.isPresent()) {
+	                            ShowDateModel existingShowDate = existingShowDateOpt.get();
+
+	                            for (ShowModel updatedShow : updatedShowDate.getShows()) {
+	                                Optional<ShowModel> existingShowOpt = existingShowDate.getShows().stream()
+	                                        .filter(s -> s.getTime().equals(updatedShow.getTime()))
+	                                        .findFirst();
+
+	                                if (existingShowOpt.isPresent()) {
+	                                    ShowModel existingShow = existingShowOpt.get();
+	                                    existingShow.setTotalSeats(updatedShow.getTotalSeats()); // Preserve seat changes
+	                                } else {
+	                                    existingShowDate.getShows().add(updatedShow);
+	                                }
+	                            }
+	                        } else {
+	                            existingLocation.getDates().add(updatedShowDate);
+	                        }
+	                    }
+	                } else {
+	                    existingMovie.getLocations().add(updatedLocation);
+	                }
+	            }
+	        }
+
+	        // Handle release date update logic without overriding seats
+	        if (!existingMovie.getReleaseDate().equals(updatedMovie.getReleaseDate())) {
+	            existingMovie.setReleaseDate(updatedMovie.getReleaseDate());
+	        }
+
+	        return repository.save(existingMovie);
+	    });
 	}
+
+
 
 	@Override
 	public MovieModel getMovieById(String movieId) {
